@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Hurricane&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+  
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8d7da;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.5s ease;
+    }
+
+    .header:hover img {
+      transform: scale(1.05);
+    }
+
+    .header h1, .header h2 {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0;
+      font-family: 'Hurricane', cursive;
+      color: #f8d7da;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .header h1 {
+      top: 50%;
+      font-size: 3.5em;
+    }
+
+    .header h2 {
+      top: 65%;
+      font-size: 3em;
+    }
+
+    .header:hover h1, .header:hover h2 {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .album-title {
+      text-align: center;
+      font-size: 1.8em;
+      margin: 30px 0;
+      font-family: 'Montserrat', sans-serif;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .album {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      padding: 0 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .photo-card {
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      width: 70%;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .photo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .photo-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .photo-card .comment {
+      background-color: #f1f1f1;
+      border-radius: 10px;
+      padding: 15px;
+      margin-left: 15px;
+      width: 60%;
+      transition: background-color 0.3s ease;
+    }
+
+    .photo-card:hover .comment {
+      background-color: #e8e8e8;
+    }
+
+    .photo-card:nth-child(odd) {
+      justify-self: flex-start;
+      justify-content: flex-start;
+    }
+
+    .photo-card:nth-child(even) {
+      justify-self: flex-end;
+      justify-content: flex-end;
+    }
+
+    .footer {
+      text-align: center;
+      margin: 60px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .footer h3 {
+      font-family: 'Hurricane', cursive;
+      font-size: 2.5em;
+      margin: 0;
+      color: #d63384;
+    }
+
+    .footer p {
+      margin: 15px 0 0;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+      color: #6c757d;
+    }
+
+    @media (max-width: 600px) {
+      .album {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-card {
+        width: 90%;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .photo-card img {
+        width: 80%;
+        height: auto;
+        margin-bottom: 15px;
+      }
+
+      .photo-card .comment {
+        width: 90%;
+        margin-top: 10px;
+        margin-left: 0;
+      }
+    }
+
+    /* Background Animation */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.5;
+    }
+
+    .bg-animation span {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff69b4;
+      animation: move 3s linear infinite;
+      border-radius: 50%;
+    }
+
+    @keyframes move {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+      }
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animation">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="header">
+    <img src="_DSC0070.JPG" alt="Person smiling with friends">
+    <h1>Happy Birthday</h1>
+    <h2>Bulannn</h2>
+  </div>
+
+  <div class="album-title">
+    Scroll yukk
+  </div>
+
+  <div class="album">
+    <div class="photo-card">
+      <img src="DSC02557.JPG" alt="Person smiling with friends">
+      <div class="comment">
+        Sehat Selalu Wulan Bulannn 
+        <br/> Semoga yang di usahakan ada hasilnyaa
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="Foto Bareng.jpg" alt="Group of people having fun">
+      <div class="comment">
+        Happy
+        <br/> Sehat sehat yh kalian berduwaaa walaupun saya belum pernah ketemu
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="_DSC4106.JPG" alt="Person smiling with friends">
+      <div class="comment">
+        Panjang umurnya
+        <br/> Sehat selalu, jaga kesehatan, kesehatan jasmani, rohani, tunmbuh tinggi selalu dan kesehatan hati (jangan sampe patah)
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="IMG_5326.JPG" alt="Person sitting and smiling">
+      <div class="comment">
+        sehat terus anak curut
+        <br/> ulan: kaya anak curut😢 xixixixi btw semangat yaa jd guru pramukanya, semoga sehat selalu 
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="Gemas 2.png" alt="Person making a funny face">
+      <div class="comment">
+        Barakallah fii umrik! 
+        <br/> Semoga Allah memberkahi umurmu dengan kelimpahan rizki, kebahagiaan yang tak terhingga, dan keberkahan yang melimpah di dunia dan akhirat.
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="Gemas.png" alt="Person smiling and posing">
+      <div class="comment">
+        Di mudahkan Semuanya
+        <br/> Semoga tercapai universitas impiannya dan semangat selalu belajar nyaa 
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <h3>Thank You</h3>
+    <p>
+      Maaf Ya Kalo Bikin Risih xixi
+      <br/> Sekian Kegabutan sy, sekian terimakasih SEHAT SELALUUU 
+    </p>
+  </div>
+
+  <audio autoplay loop>
+    <source src="Sequence 02.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+
+  <script>
+    // Initialize GSAP
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animate album title
+    gsap.to('.album-title', {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: '.album-title',
+        start: 'top 80%',
+      }
+    });
+
+    // Animate photo cards
+    gsap.utils.toArray('.photo-card').forEach((card, index) => {
+      gsap.to(card, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        delay: index * 0.2,
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 90%',
+        }
+      });
+    });
+
+    // Animate footer
+    gsap.to('.footer', {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: '.footer',
+        start: 'top 90%',
+      }
+    });
+
+    // Background animation
+    const bgAnimation = document.querySelector('.bg-animation');
+    for (let i = 0; i < 50; i++) {
+      const span = document.createElement('span');
+      span.style.top = Math.random() * innerHeight + 'px';
+      span.style.left = Math.random() * innerWidth + 'px';
+      span.style.animationDelay = Math.random() * 5 + 's';
+      bgAnimation.appendChild(span);
+    }
+  </script>
+</body>
+</html>
